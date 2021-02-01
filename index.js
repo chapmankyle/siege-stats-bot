@@ -4,6 +4,7 @@
 
 // invite link : https://discord.com/oauth2/authorize?client_id=805758708394098695&scope=bot
 
+const fs = require('fs');
 const dotenv = require('dotenv');
 const config = require('./config.json');
 
@@ -19,6 +20,16 @@ const token = process.env.TOKEN;
 const validPrefix = config.prefix + config.name;
 
 const client = new Discord.Client();
+client.commands = new Discord.Collection();
+
+// read separate command files
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+
+// register discord commands
+for (const file of commandFiles) {
+	const command = require(`./commands/${file}`);
+	client.commands.set(command.name, command);
+}
 
 // trigger when application is ready
 client.once('ready', () => {
@@ -36,7 +47,25 @@ client.on('message', message => {
 
 	// get additional arguments
 	const args = content.slice(validPrefix.length).trim().toLowerCase().split(/ +/);
-	console.log(args);
+	const commandName = args.shift();
+
+	// not valid command
+	if (!client.commands.has(commandName)) {
+		message.reply(`\`${commandName}\` is not a recognized command!`);
+		return;
+	}
+
+	// get command
+	const command = client.commands.get(commandName);
+
+	// attempt to execute command
+	try {
+		command.execute(message, args);
+	}
+	catch (error) {
+		console.error(error);
+		message.reply(`Error executing command \`${commandName}\`!`);
+	}
 });
 
 // login with token from environment file
