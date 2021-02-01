@@ -4,8 +4,14 @@
 
 module.exports = {
 	name: 'help',
-	description: 'Command to display help information.',
+	description: 'Display help information.',
 	execute(msg, args) {
-		msg.channel.send('Hello');
+		const data = [];
+		const { commands } = msg.client;
+
+		data.push('The following commands are available:');
+		data.push(commands.map(command => '* `' + command.name + '` - ' + command.description).join('\n'));
+
+		msg.channel.send(data, { split: true });
 	},
 };
