@@ -46,8 +46,8 @@ client.on('message', message => {
 	}
 
 	// get additional arguments
-	const args = content.slice(validPrefix.length).trim().toLowerCase().split(/ +/);
-	const commandName = args.shift();
+	const args = content.slice(validPrefix.length).trim().split(/ +/);
+	const commandName = args.shift().toLowerCase();
 
 	// not valid command
 	if (!client.commands.has(commandName)) {
