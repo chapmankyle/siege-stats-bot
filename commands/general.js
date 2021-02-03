@@ -90,7 +90,7 @@ module.exports = {
 
 					const rankedData = rankResp.data.players[`${profileId}`];
 					const rank = rankedData.rank;
-					const rankedImgURL = config.ranks[rank];
+					const rankedImgURL = config.ranks[rank].img;
 
 					// add message data
 					const data = new Discord.MessageEmbed()
