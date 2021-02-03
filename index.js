@@ -6,9 +6,9 @@
 
 const fs = require('fs');
 const dotenv = require('dotenv');
-const config = require('./config.json');
-
 const Discord = require('discord.js');
+
+const config = require('./config.json');
 
 // configure for .env file reading
 dotenv.config();
