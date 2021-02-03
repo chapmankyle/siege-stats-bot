@@ -2,29 +2,101 @@
 	"prefix": "!",
 	"name": "ss",
 	"ranks": {
-		"0": "https://tabstats.com/images/r6/ranks/?rank=0&champ=0.png",
-		"1": "https://trackercdn.com/cdn/r6.tracker.network/ranks/svg/s15/hd-rank5.svg",
-		"2": "https://tabstats.com/images/r6/ranks/?rank=1&champ=0.png",
-		"3": "https://tabstats.com/images/r6/ranks/?rank=2&champ=0.png",
-		"4": "https://tabstats.com/images/r6/ranks/?rank=3&champ=0.png",
-		"5": "https://tabstats.com/images/r6/ranks/?rank=4&champ=0.png",
-		"6": "https://trackercdn.com/cdn/r6.tracker.network/ranks/svg/s15/hd-rank10.svg",
-		"7": "https://tabstats.com/images/r6/ranks/?rank=5&champ=0.png",
-		"8": "https://tabstats.com/images/r6/ranks/?rank=6&champ=0.png",
-		"9": "https://tabstats.com/images/r6/ranks/?rank=7&champ=0.png",
-		"10": "https://tabstats.com/images/r6/ranks/?rank=8&champ=0.png",
-		"11": "https://trackercdn.com/cdn/r6.tracker.network/ranks/svg/s15/hd-rank15.svg",
-		"12": "https://tabstats.com/images/r6/ranks/?rank=9&champ=0.png",
-		"13": "https://tabstats.com/images/r6/ranks/?rank=10&champ=0.png",
-		"14": "https://tabstats.com/images/r6/ranks/?rank=11&champ=0.png",
-		"15": "https://tabstats.com/images/r6/ranks/?rank=12&champ=0.png",
-		"16": "https://tabstats.com/images/r6/ranks/?rank=14&champ=0.png",
-		"17": "https://tabstats.com/images/r6/ranks/?rank=15&champ=0.png",
-		"18": "https://tabstats.com/images/r6/ranks/?rank=16&champ=0.png",
-		"19": "https://tabstats.com/images/r6/ranks/?rank=17&champ=0.png",
-		"20": "https://tabstats.com/images/r6/ranks/?rank=18&champ=0.png",
-		"21": "https://tabstats.com/images/r6/ranks/?rank=19&champ=0.png",
-		"22": "https://tabstats.com/images/r6/ranks/?rank=20&champ=0.png",
-		"23": "https://tabstats.com/images/r6/ranks/?rank=21&champ=0.png"
+		"0": {
+			"name": "Unranked",
+			"img": "https://tabstats.com/images/r6/ranks/?rank=0&champ=0.png"
+		},
+		"1": {
+			"name": "Copper 5",
+			"img": "https://trackercdn.com/cdn/r6.tracker.network/ranks/svg/s15/hd-rank5.svg"
+		},
+		"2": {
+			"name": "Copper 4",
+			"img": "https://tabstats.com/images/r6/ranks/?rank=1&champ=0.png"
+		},
+		"3": {
+			"name": "Copper 3",
+			"img": "https://tabstats.com/images/r6/ranks/?rank=2&champ=0.png"
+		},
+		"4": {
+			"name": "Copper 2",
+			"img": "https://tabstats.com/images/r6/ranks/?rank=3&champ=0.png"
+		},
+		"5": {
+			"name": "Copper 1",
+			"img": "https://tabstats.com/images/r6/ranks/?rank=4&champ=0.png"
+		},
+		"6": {
+			"name": "Bronze 5",
+			"img": "https://trackercdn.com/cdn/r6.tracker.network/ranks/svg/s15/hd-rank10.svg"
+		},
+		"7": {
+			"name": "Bronze 4",
+			"img": "https://tabstats.com/images/r6/ranks/?rank=5&champ=0.png"
+		},
+		"8": {
+			"name": "Bronze 3",
+			"img": "https://tabstats.com/images/r6/ranks/?rank=6&champ=0.png"
+		},
+		"9": {
+			"name": "Bronze 2",
+			"img": "https://tabstats.com/images/r6/ranks/?rank=7&champ=0.png"
+		},
+		"10": {
+			"name": "Bronze 1",
+			"img": "https://tabstats.com/images/r6/ranks/?rank=8&champ=0.png"
+		},
+		"11": {
+			"name": "Silver 5",
+			"img": "https://trackercdn.com/cdn/r6.tracker.network/ranks/svg/s15/hd-rank15.svg"
+		},
+		"12": {
+			"name": "Silver 4",
+			"img": "https://tabstats.com/images/r6/ranks/?rank=9&champ=0.png"
+		},
+		"13": {
+			"name": "Silver 3",
+			"img": "https://tabstats.com/images/r6/ranks/?rank=10&champ=0.png"
+		},
+		"14": {
+			"name": "Silver 2",
+			"img": "https://tabstats.com/images/r6/ranks/?rank=11&champ=0.png"
+		},
+		"15": {
+			"name": "Silver 1",
+			"img": "https://tabstats.com/images/r6/ranks/?rank=12&champ=0.png"
+		},
+		"16": {
+			"name": "Gold 3",
+			"img": "https://tabstats.com/images/r6/ranks/?rank=14&champ=0.png"
+		},
+		"17": {
+			"name": "Gold 2",
+			"img": "https://tabstats.com/images/r6/ranks/?rank=15&champ=0.png"
+		},
+		"18": {
+			"name": "Gold 1",
+			"img": "https://tabstats.com/images/r6/ranks/?rank=16&champ=0.png"
+		},
+		"19": {
+			"name": "Platinum 3",
+			"img": "https://tabstats.com/images/r6/ranks/?rank=17&champ=0.png"
+		},
+		"20": {
+			"name": "Platinum 2",
+			"img": "https://tabstats.com/images/r6/ranks/?rank=18&champ=0.png"
+		},
+		"21": {
+			"name": "Platinum 1",
+			"img": "https://tabstats.com/images/r6/ranks/?rank=19&champ=0.png"
+		},
+		"22": {
+			"name": "Diamond",
+			"img": "https://tabstats.com/images/r6/ranks/?rank=20&champ=0.png"
+		},
+		"23": {
+			"name": "Champion",
+			"img": "https://tabstats.com/images/r6/ranks/?rank=21&champ=0.png"
+		}
 	}
 }
