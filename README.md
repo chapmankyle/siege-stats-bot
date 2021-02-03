@@ -15,9 +15,9 @@ If you have administrator priviledges, you can simply navigate [here](https://di
 ## :page_facing_up: Commands 
 The bot only reads messages starting with `!ss`, followed by a valid command and any extra arguments.
 The following are valid commands:
-| Command | Example | Description |
-| :-----: | :-----: | :---------: |
-| `help` | `!ss help` | Displays the currently available commands. |
+| Command                | Example                    | Description |
+| :--------------------: | :------------------------- | :---------- |
+| `help`                 | `!ss help`                 | Displays the currently available commands. |
 | `general <playerName>` | `!ss general chappies.NZA` | Displays the general statistics for the given `playerName`. |
 
 # Cloning :alien:
