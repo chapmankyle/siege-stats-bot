@@ -13,7 +13,7 @@ module.exports = {
 	execute(msg, args, ticket, sessionId) {
 		// no player name given as argument
 		if (args.length < 1) {
-			msg.reply('you have not specified a player name.');
+			msg.reply('you have not specified a player name. Try something like `!ss general Beaulo.TSM`');
 			return;
 		}
 
