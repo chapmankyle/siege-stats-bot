@@ -9,6 +9,7 @@ const dotenv = require('dotenv');
 const Discord = require('discord.js');
 
 const config = require('./config.json');
+const axios = require('axios').default;
 
 // configure for .env file reading
 dotenv.config();
@@ -31,8 +32,29 @@ for (const file of commandFiles) {
 	client.commands.set(command.name, command);
 }
 
+let ticket = '';
+let sessionId = '';
+
 // trigger when application is ready
-client.once('ready', () => {
+client.once('ready', async () => {
+	const resp = await axios.post('https://public-ubiservices.ubi.com/v3/profiles/sessions', { 'rememberMe': true }, {
+		headers: {
+			'Ubi-AppId': config.appId,
+			'Content-Type': 'application/json',
+			'Authorization': 'Basic ' + process.env.UBI_AUTH,
+		},
+	});
+
+	// no ticket in response
+	if (!('ticket' in resp.data)) {
+		console.error('Error occurred fetching ticket.');
+		return;
+	}
+
+	// update ticket and session id
+	ticket = resp.data.ticket;
+	sessionId = resp.data.sessionId;
+
 	console.log('Ready!');
 });
 
@@ -60,7 +82,7 @@ client.on('message', message => {
 
 	// attempt to execute command
 	try {
-		command.execute(message, args);
+		command.execute(message, args, ticket, sessionId);
 	}
 	catch (error) {
 		console.error(error);
