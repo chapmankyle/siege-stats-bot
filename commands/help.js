@@ -4,13 +4,13 @@
 
 module.exports = {
 	name: 'help',
-	description: 'Display help information.',
-	execute(msg, args) {
+	description: 'Display the currently available commands.',
+	execute(msg, args, ticket, sessionId) {
 		const data = [];
 		const { commands } = msg.client;
 
 		data.push('The following commands are available:');
-		data.push(commands.map(command => '* `' + command.name + '` - ' + command.description).join('\n'));
+		data.push(commands.map(command => '  • `' + command.name + '` - ' + command.description).join('\n'));
 
 		msg.channel.send(data, { split: true });
 	},
