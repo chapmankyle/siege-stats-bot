@@ -65,11 +65,11 @@ module.exports = {
 
 			const kills = parseInt(statistics.ProgressionPvPKills.value, 10);
 			const deaths = parseInt(statistics.ProgressionPvPDeath.value, 10);
-			const kdr = (kills * 1.0) / (deaths * 1.0);
+			const kdr = deaths == 0 ? (kills * 1.0) : ((kills * 1.0) / (deaths * 1.0));
 
 			const wins = parseInt(statistics.ProgressionPvPMatchesWon.value, 10);
 			const losses = parseInt(statistics.ProgressionPvPMatchesLost.value, 10);
-			const wlr = (wins * 1.0) / (losses * 1.0);
+			const wlr = losses == 0 ? (wins * 1.0) : ((wins * 1.0) / (losses * 1.0));
 
 			const revives = statistics.ProgressionPvPRevive.value;
 			const timePlayed = Math.round(parseFloat(statistics.ProgressionPvPTimePlayed.value) / 3600.0);
