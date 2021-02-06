@@ -48,7 +48,7 @@ module.exports = {
 			// only search for these statistics
 			const statNames = 'ProgressionClearanceLevel,ProgressionPvPKills,ProgressionPvPDeath,ProgressionPvPMatchesWon,ProgressionPvPMatchesLost,ProgressionPvPRevive,ProgressionPvPTimePlayed';
 
-			const statsResp = await axios.get(`https://public-ubiservices.ubi.com/v1/profiles/stats?profileIds=${profileId}&spaceId=${config.spaces.uplay}&statNames=${statNames}`, {
+			const statsResp = await axios.get(`https://api-ubiservices.ubi.com/v1/profiles/stats?profileIds=${profileId}&spaceId=${config.spaces.uplay}&statNames=${statNames}`, {
 				headers: authHeader,
 			});
 
@@ -72,9 +72,12 @@ module.exports = {
 			const wlr = losses == 0 ? (wins * 1.0) : ((wins * 1.0) / (losses * 1.0));
 
 			const revives = statistics.ProgressionPvPRevive.value;
-			const timePlayed = Math.round(parseFloat(statistics.ProgressionPvPTimePlayed.value) / 3600.0);
 
-			const rankResp = await axios.get(`https://public-ubiservices.ubi.com/v1/spaces/${config.spaces.uplay}/sandboxes/OSBOR_PC_LNCH_A/r6karma/players?board_id=pvp_ranked&season_id=-1&region_id=ncsa&profile_ids=${profileId}`, {
+			const rawTimePlayed = parseFloat(statistics.ProgressionPvPTimePlayed.value);
+			const timePlayedHours = Math.floor(rawTimePlayed / 3600.0);
+			const timePlayedMins = Math.round(((rawTimePlayed / 3600) % timePlayedHours) * 60);
+
+			const rankResp = await axios.get(`https://api-ubiservices.ubi.com/v1/spaces/${config.spaces.uplay}/sandboxes/OSBOR_PC_LNCH_A/r6karma/players?board_id=pvp_ranked&season_id=-1&region_id=ncsa&profile_ids=${profileId}`, {
 				headers: authHeader,
 			});
 
@@ -97,7 +100,7 @@ module.exports = {
 					{ name: 'Revives', value: revives, inline: true },
 					{ name: 'Wins', value: `${wins}`, inline: true },
 					{ name: 'Losses', value: `${losses}`, inline: true },
-					{ name: 'Time Played', value: `${timePlayed} H`, inline: true },
+					{ name: 'Time Played', value: `${timePlayedHours} H ${timePlayedMins} M`, inline: true },
 				);
 
 			// send message
