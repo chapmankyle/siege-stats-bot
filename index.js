@@ -37,10 +37,10 @@ let sessionId = '';
 
 // trigger when application is ready
 client.once('ready', async () => {
-	const resp = await axios.post('https://public-ubiservices.ubi.com/v3/profiles/sessions', { 'rememberMe': true }, {
+	const resp = await axios.post('https://api-ubiservices.ubi.com/v3/profiles/sessions', { 'rememberMe': true }, {
 		headers: {
-			'Ubi-AppId': config.appId,
 			'Content-Type': 'application/json',
+			'Ubi-AppId': config.appId,
 			'Authorization': 'Basic ' + process.env.UBI_AUTH,
 		},
 	});
