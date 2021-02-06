@@ -9,6 +9,7 @@ const dotenv = require('dotenv');
 const Discord = require('discord.js');
 
 const config = require('./config.json');
+const axios = require('axios').default;
 
 // configure for .env file reading
 dotenv.config();
@@ -31,8 +32,29 @@ for (const file of commandFiles) {
 	client.commands.set(command.name, command);
 }
 
+let ticket = '';
+let sessionId = '';
+
 // trigger when application is ready
-client.once('ready', () => {
+client.once('ready', async () => {
+	const resp = await axios.post('https://api-ubiservices.ubi.com/v3/profiles/sessions', { 'rememberMe': true }, {
+		headers: {
+			'Content-Type': 'application/json',
+			'Ubi-AppId': config.appId,
+			'Authorization': 'Basic ' + process.env.UBI_AUTH,
+		},
+	});
+
+	// no ticket in response
+	if (!('ticket' in resp.data)) {
+		console.error('Error occurred fetching ticket.');
+		return;
+	}
+
+	// update ticket and session id
+	ticket = resp.data.ticket;
+	sessionId = resp.data.sessionId;
+
 	console.log('Ready!');
 });
 
@@ -49,18 +71,18 @@ client.on('message', message => {
 	const args = content.slice(validPrefix.length).trim().split(/ +/);
 	const commandName = args.shift().toLowerCase();
 
-	// not valid command
-	if (!client.commands.has(commandName)) {
+	// get command
+	const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+
+	// no recognized command
+	if (!command) {
 		message.reply(`\`${commandName}\` is not a recognized command!`);
 		return;
 	}
 
-	// get command
-	const command = client.commands.get(commandName);
-
 	// attempt to execute command
 	try {
-		command.execute(message, args);
+		command.execute(message, args, ticket, sessionId);
 	}
 	catch (error) {
 		console.error(error);
