@@ -71,14 +71,14 @@ client.on('message', message => {
 	const args = content.slice(validPrefix.length).trim().split(/ +/);
 	const commandName = args.shift().toLowerCase();
 
-	// not valid command
-	if (!client.commands.has(commandName)) {
+	// get command
+	const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+
+	// no recognized command
+	if (!command) {
 		message.reply(`\`${commandName}\` is not a recognized command!`);
 		return;
 	}
-
-	// get command
-	const command = client.commands.get(commandName);
 
 	// attempt to execute command
 	try {
