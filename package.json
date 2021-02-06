@@ -1,6 +1,6 @@
 {
   "name": "siege-stats-bot",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Discord bot to track statistics of players in Tom Clancy's Rainbow Six Siege",
   "main": "index.js",
   "scripts": {
