@@ -19,6 +19,9 @@ The following are valid commands:
 | :--------------------: | :------------------------- | :---------- |
 | `help`                 | `!ss help`                 | Displays the currently available commands. |
 | `general <playerName>` | `!ss general chappies.NZA` | Displays the general statistics for the given `playerName`. |
+| `ranked <playerName>`  | `!ss ranked chappies.NZA`  | Displays the overall ranked statistics for the given `playerName`. |
+| `casual <playerName>`  | `!ss casual chappies.NZA`  | Displays the overall casual statistics for the given `playerName`. |
+| `seasonal <matchType> <playerName>` | `!ss seasonal ranked chappies.NZA` | Displays the current seasonal statistics of `matchType` for the given `playerName`. |
 
 # Cloning :alien:
 
@@ -37,6 +40,7 @@ An environment variable file, called `.env`, is needed in order to run the bot. 
 
 Now all you need to type is 
 ```bash
+# run the bot locally
 node index.js
 ```
 and the Discord bot should be up and running! :tada:
