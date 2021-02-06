@@ -27,7 +27,7 @@ module.exports = {
 		};
 
 		// get matching profiles
-		axios.get(`https://public-ubiservices.ubi.com/v3/profiles?namesOnPlatform=${username}&platformType=uplay`, {
+		axios.get(`https://api-ubiservices.ubi.com/v3/profiles?namesOnPlatform=${username}&platformType=uplay`, {
 			headers: authHeader,
 		}).then(async profilesResp => {
 			const matches = profilesResp.data.profiles;
@@ -45,57 +45,58 @@ module.exports = {
 			const profileId = profile.userId;
 			const profileName = profile.nameOnPlatform;
 
-			// get latest season ranked results
-			const rankResp = await axios.get(`https://public-ubiservices.ubi.com/v1/spaces/${config.spaces.uplay}/sandboxes/OSBOR_PC_LNCH_A/r6karma/players?board_id=pvp_ranked&season_id=-1&region_id=ncsa&profile_ids=${profileId}`, {
+			const statTypes = 'rankedpvp_kills,rankedpvp_death,rankedpvp_matchwon,rankedpvp_matchlost,rankedpvp_matchplayed,rankedpvp_timeplayed';
+
+			// get overall ranked results
+			const rankResp = await axios.get(`https://api-ubiservices.ubi.com/v1/spaces/${config.spaces.uplay}/sandboxes/OSBOR_PC_LNCH_A/playerstats2/statistics?populations=${profileId}&statistics=${statTypes}`, {
 				headers: authHeader,
 			});
 
-			const rankedData = rankResp.data.players[`${profileId}`];
-			const rankId = rankedData.rank;
+			// get seasonal rank
+			const currRankResp = await axios.get(`https://api-ubiservices.ubi.com/v1/spaces/${config.spaces.uplay}/sandboxes/OSBOR_PC_LNCH_A/r6karma/players?board_id=pvp_ranked&season_id=-1&region_id=ncsa&profile_ids=${profileId}`, {
+				headers: authHeader,
+			});
+
+			const rankId = currRankResp.data.players[`${profileId}`].rank;
 			const rankedImgURL = config.ranks[rankId].img;
 
-			const season = config.seasons[rankedData.season];
-			const maxMMR = parseInt(rankedData['max_mmr'], 10);
-			const wins = parseInt(rankedData.wins, 10);
-			const losses = parseInt(rankedData.losses, 10);
-			const wlr = losses == 0 ? (wins * 1.0) : ((wins * 1.0) / (losses * 1.0));
-			const numMatches = wins + losses;
+			const rankedData = rankResp.data.results[`${profileId}`];
 
-			const mmr = parseInt(rankedData.mmr, 10);
-			const mmrChange = parseInt(rankedData['last_match_mmr_change'], 10);
-			const mmrChangeVal = mmrChange > 0 ? `+${mmrChange}` : `${mmrChange}`;
-			const rankName = config.ranks[rankId].name;
-
-			const kills = parseInt(rankedData.kills, 10);
-			const deaths = parseInt(rankedData.deaths, 10);
+			const kills = 'rankedpvp_kills:infinite' in rankedData ? parseInt(rankedData['rankedpvp_kills:infinite'], 10) : 0;
+			const deaths = 'rankedpvp_death:infinite' in rankedData ? parseInt(rankedData['rankedpvp_death:infinite'], 10) : 0;
 			const kdr = deaths == 0 ? (kills * 1.0) : ((kills * 1.0) / (deaths * 1.0));
 
-			const mean = parseFloat(rankedData['skill_mean']);
-			const stdev = parseFloat(rankedData['skill_stdev']);
-			const abandons = parseInt(rankedData.abandons);
+			const wins = 'rankedpvp_matchwon:infinite' in rankedData ? parseInt(rankedData['rankedpvp_matchwon:infinite'], 10) : 0;
+			const losses = 'rankedpvp_matchlost:infinite' in rankedData ? parseInt(rankedData['rankedpvp_matchlost:infinite'], 10) : 0;
+			const wlr = losses == 0 ? (wins * 1.0) : ((wins * 1.0) / (losses * 1.0));
 
-			// add message data
+			const numMatches = 'rankedpvp_matchplayed:infinite' in rankedData ? parseInt(rankedData['rankedpvp_matchplayed:infinite'], 10) : 0;
+			const abandons = numMatches - (wins + losses);
+
+			const rawTimePlayed = 'rankedpvp_timeplayed:infinite' in rankedData ? parseFloat(rankedData['rankedpvp_timeplayed:infinite']) : 0;
+			const timePlayedHours = Math.floor(rawTimePlayed / 3600.0);
+			const timePlayedMins = Math.round(((rawTimePlayed / 3600) % timePlayedHours) * 60);
+
+			const kpmatch = numMatches == 0 ? 0 : (kills * 1.0) / (numMatches * 1.0);
+			const kpmin = rawTimePlayed == 0 ? 0 : ((kills * 1.0) / rawTimePlayed) * 60.0;
+
 			const data = new Discord.MessageEmbed()
-				.setColor('#00a2ff')
+				.setColor('#1eff00')
 				.setAuthor(profileName, `https://ubisoft-avatars.akamaized.net/${profileId}/default_146_146.png?appId=${config.appId}`)
-				.setDescription('Ranked stats for the current season.')
+				.setDescription(`Overall ranked statistics.\nUplay ID: ${profileId}`)
 				.setThumbnail(rankedImgURL)
 				.addFields(
-					{ name: 'Season', value: season, inline: true },
-					{ name: 'Max MMR', value: `${maxMMR}`, inline: true },
-					{ name: 'Matches', value: `${numMatches}`, inline: true },
-					{ name: 'Current MMR', value: `${mmr}`, inline: true },
-					{ name: 'MMR Change', value: `${mmrChangeVal}`, inline: true },
-					{ name: 'Rank', value: rankName, inline: true },
 					{ name: 'Kills', value: `${kills}`, inline: true },
 					{ name: 'Deaths', value: `${deaths}`, inline: true },
-					{ name: 'Kill/Death Ratio', value: kdr.toFixed(2), inline: true },
+					{ name: 'Kill/Death Ratio', value: `${kdr == 0 ? 0 : kdr.toFixed(3)}`, inline: true },
 					{ name: 'Wins', value: `${wins}`, inline: true },
 					{ name: 'Losses', value: `${losses}`, inline: true },
-					{ name: 'Win/Loss Ratio', value: wlr.toFixed(2), inline: true },
-					{ name: 'Skill Mean', value: mean.toFixed(2), inline: true },
-					{ name: 'Skill Deviation', value: stdev.toFixed(2), inline: true },
+					{ name: 'Win/Loss Ratio', value: `${wlr == 0 ? 0 : wlr.toFixed(3)}`, inline: true },
+					{ name: 'Matches', value: `${numMatches}`, inline: true },
 					{ name: 'Abandons', value: `${abandons}`, inline: true },
+					{ name: 'Time Played', value: `${timePlayedHours} H ${timePlayedMins} M`, inline: true },
+					{ name: 'Kills/Match', value: `${kpmatch == 0 ? 0 : kpmatch.toFixed(2)}`, inline: true },
+					{ name: 'Kills/Minute', value: `${kpmin == 0 ? 0 : kpmin.toFixed(2)}`, inline: true },
 				);
 
 			// send message
