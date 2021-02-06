@@ -5,14 +5,18 @@
 // invite link : https://discord.com/oauth2/authorize?client_id=805758708394098695&scope=bot
 
 const fs = require('fs');
-const dotenv = require('dotenv');
 const Discord = require('discord.js');
 
 const config = require('./config.json');
 const axios = require('axios').default;
 
-// configure for .env file reading
-dotenv.config();
+// check if .env file exists
+if (fs.existsSync('./.env')) {
+	const dotenv = require('dotenv');
+
+	// configure for .env file reading
+	dotenv.config();
+}
 
 // store token from environment file
 const token = process.env.TOKEN;
