@@ -27,7 +27,7 @@ module.exports = {
 		};
 
 		// get matching profiles
-		axios.get(`https://public-ubiservices.ubi.com/v3/profiles?namesOnPlatform=${username}&platformType=uplay`, {
+		axios.get(`https://api-ubiservices.ubi.com/v3/profiles?namesOnPlatform=${username}&platformType=uplay`, {
 			headers: authHeader,
 		}).then(async profilesResp => {
 			const matches = profilesResp.data.profiles;
@@ -86,12 +86,12 @@ module.exports = {
 			const data = new Discord.MessageEmbed()
 				.setColor('#ff6a00')
 				.setAuthor(profileName, `https://ubisoft-avatars.akamaized.net/${profileId}/default_146_146.png?appId=${config.appId}`)
-				.setDescription(`Uplay ID: ${profileId}`)
+				.setDescription(`General statistics over entire duration of playing.\nUplay ID: ${profileId}`)
 				.setThumbnail(rankedImgURL)
 				.addFields(
 					{ name: 'Level', value: level, inline: true },
-					{ name: 'Kill/Death Ratio', value: kdr.toFixed(2), inline: true },
-					{ name: 'Win/Loss Ratio', value: wlr.toFixed(2), inline: true },
+					{ name: 'Kill/Death Ratio', value: kdr.toFixed(3), inline: true },
+					{ name: 'Win/Loss Ratio', value: wlr.toFixed(3), inline: true },
 					{ name: 'Kills', value: `${kills}`, inline: true },
 					{ name: 'Deaths', value: `${deaths}`, inline: true },
 					{ name: 'Revives', value: revives, inline: true },
