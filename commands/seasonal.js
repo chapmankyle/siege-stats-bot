@@ -7,6 +7,7 @@ const Discord = require('discord.js');
 
 module.exports = {
 	name: 'seasonal',
+	aliases: ['season', 'current'],
 	description: 'Display current seasonal information about a player.',
 	execute(msg, args, ticket, sessionId) {
 		// no player name given as argument
