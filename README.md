@@ -5,7 +5,13 @@
   <img src="https://img.shields.io/github/v/release/chapmankyle/siege-stats-bot.svg?" alt="Release"></img>
 </p>
 
-Discord bot to track statistics of players in Tom Clancy's Rainbow Six Siege :robot: :page_facing_up:
+<p align="center">
+  Discord bot to track statistics of players in Tom Clancy's Rainbow Six Siege :robot: :page_facing_up:
+</p>
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/43512442/107859597-39695280-6e43-11eb-86f7-5008f2a18ae1.PNG" alt="Demo Screenshot"></img>
+</p>
 
 # Usage :cd:
 
