@@ -89,7 +89,9 @@ module.exports = {
 			const data = new Discord.MessageEmbed()
 				.setColor('#ff6a00')
 				.setAuthor(profileName, `https://ubisoft-avatars.akamaized.net/${profileId}/default_146_146.png?appId=${config.appId}`)
+				.setTitle (`View ${profileName} stats`)
 				.setDescription(`General statistics over entire duration of playing.\nUplay ID: ${profileId}`)
+				.setURL(`https://r6stats.com/stats/${profileId}`)
 				.setThumbnail(rankedImgURL)
 				.addFields(
 					{ name: 'Level', value: level, inline: true },
