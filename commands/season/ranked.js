@@ -77,6 +77,8 @@ module.exports = {
 			// add message data
 			const data = new Discord.MessageEmbed()
 				.setColor('#00a2ff')
+				.setTitle (`View ${profileName} stats`)
+				.setURL(`https://r6stats.com/stats/${profileId}`)
 				.setAuthor(profileName, `https://ubisoft-avatars.akamaized.net/${profileId}/default_146_146.png?appId=${config.appId}`)
 				.setDescription(`Ranked stats for the current season.\nUplay ID: ${profileId}`)
 				.setThumbnail(rankedImgURL)
